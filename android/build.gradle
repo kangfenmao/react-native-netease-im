@@ -29,13 +29,12 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion getExtOrDefault('minSdkVersion')
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -122,9 +121,15 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault('kotlinVersion')
+def netease_sdk_version = '7.8.1'
 
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  // netease im sdk
+  implementation "com.netease.nimlib:basesdk:$netease_sdk_version"
+  implementation "com.netease.nimlib:chatroom:$netease_sdk_version"
+  implementation "com.netease.nimlib:push:$netease_sdk_version"
 }

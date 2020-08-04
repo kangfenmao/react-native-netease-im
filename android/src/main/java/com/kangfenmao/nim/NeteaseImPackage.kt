@@ -1,4 +1,4 @@
-package com.reactnativeneteaseim
+package com.kangfenmao.nim
 
 import java.util.Arrays
 import java.util.Collections

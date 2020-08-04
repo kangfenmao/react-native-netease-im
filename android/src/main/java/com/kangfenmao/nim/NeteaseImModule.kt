@@ -1,4 +1,4 @@
-package com.reactnativeneteaseim
+package com.kangfenmao.nim
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -15,10 +15,10 @@ class NeteaseImModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     // See https://facebook.github.io/react-native/docs/native-modules-android
     @ReactMethod
     fun multiply(a: Int, b: Int, promise: Promise) {
-    
+
       promise.resolve(a * b)
-    
+
     }
 
-    
+
 }

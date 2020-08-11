@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-netease-im": ["./src/index"]
+      "@kangfenmao/react-native-netease-im": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

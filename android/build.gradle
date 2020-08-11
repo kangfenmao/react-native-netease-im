@@ -1,6 +1,5 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['NeteaseIm_kotlinVersion']
 
   repositories {
     google()
@@ -9,13 +8,10 @@ buildscript {
 
   dependencies {
     classpath 'com.android.tools.build:gradle:3.2.1'
-    // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 def getExtOrDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['NeteaseIm_' + name]
@@ -120,16 +116,14 @@ repositories {
   }
 }
 
-def kotlin_version = getExtOrDefault('kotlinVersion')
 def netease_sdk_version = '7.8.1'
 
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
   // netease im sdk
   implementation "com.netease.nimlib:basesdk:$netease_sdk_version"
-  implementation "com.netease.nimlib:chatroom:$netease_sdk_version"
   implementation "com.netease.nimlib:push:$netease_sdk_version"
+  implementation 'com.alibaba:fastjson:1.1.72.android'
 }

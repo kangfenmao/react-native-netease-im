@@ -1,5 +1,5 @@
 {
-  "name": "react-native-netease-im",
+  "name": "@kangfenmao/react-native-netease-im",
   "version": "0.1.0",
   "description": "网易云信 React Native SDK",
   "main": "lib/commonjs/index",
@@ -22,7 +22,8 @@
   "scripts": {
     "test": "jest",
     "typescript": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
+    "preprepare": "cp -n example/env.example.json example/env.json || true",
     "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
@@ -105,25 +106,14 @@
     "extends": [
       "@react-native-community",
       "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
-        }
-      ]
-    }
+    ]
   },
   "eslintIgnore": ["node_modules/", "lib/"],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
     "tabWidth": 2,
+    "semi": false,
     "trailingComma": "es5",
     "useTabs": false
   },

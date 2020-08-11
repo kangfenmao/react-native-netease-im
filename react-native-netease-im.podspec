@@ -13,9 +13,10 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/kangfenmao/react-native-netease-im.git", :tag => "#{s.version}" }
 
-  
+
   s.source_files = "ios/**/*.{h,m,mm}"
-  
+
 
   s.dependency "React"
+  s.dependency "NIMSDK_LITE"
 end

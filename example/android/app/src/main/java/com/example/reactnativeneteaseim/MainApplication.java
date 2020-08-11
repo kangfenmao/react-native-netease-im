@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.kangfenmao.nim.NeteaseIm;
 import com.kangfenmao.nim.NeteaseImPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -47,8 +48,13 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    // NIM init
+    NeteaseIm.init(this, "b50f9bde39c188230f84b62eb1c47102");
+
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
+    // Remove this line if you don't want Flipper enabled
+    // initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
   /**

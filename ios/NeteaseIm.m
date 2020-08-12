@@ -284,7 +284,7 @@ RCT_EXPORT_METHOD(getMessage
     for (int i = 0; i < imMessages.count; i++) {
         NIMMessage *imMessage = imMessages[i];
         Message *message = [[Message alloc] initWithParams:imMessage.messageId :imMessage.from :imMessage.session.sessionType];
-        messages[i] = message;
+        messages[i] = message.getMessage;
     }
 
     [self sendEventWithName:@"onMessages" body:messages];

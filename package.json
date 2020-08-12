@@ -121,6 +121,10 @@
   "@react-native-community/bob": {
     "source": "src",
     "output": "lib",
-    "targets": ["commonjs", "module", "typescript"]
+    "targets": [
+      ["commonjs", { "babelrc": true }],
+      ["module", { "babelrc": true }],
+      "typescript"
+    ]
   }
 }

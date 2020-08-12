@@ -22,6 +22,7 @@
 -(NSDictionary *)getTeam
 {
     __block NIMTeam *team = self->team ? self->team : [[NIMSDK sharedSDK].teamManager teamById:self->teamId];
+    NimConstant *nimConstant = [[NimConstant alloc] init];
 
     if (!team) {
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
@@ -52,8 +53,8 @@
         @"introduce": team.intro ? team.intro : [NSNull null],
         @"memberCount": @(team.memberNumber),
         @"memberLimit": @(team.level),
-        @"notify": @(team.notifyStateForNewMsg),
-        @"verifyType": @(team.joinMode),
+        @"notify": nimConstant->notifyType[team.notifyStateForNewMsg],
+        @"verifyType": nimConstant->verifyType[team.joinMode],
         @"createTime": [@(team.createTime * 1000) stringValue]
     };
 }

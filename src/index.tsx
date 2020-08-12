@@ -26,8 +26,8 @@ interface NeteaseImInterface {
   sdkVersion: string
 }
 
-export declare namespace NIM {
-  type PromiseResult = {
+export namespace NIM {
+  export type PromiseResult = {
     code: string
     message: string
   }

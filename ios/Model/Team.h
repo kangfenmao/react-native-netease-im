@@ -1,4 +1,5 @@
 #import <NIMSDK/NIMSDK.h>
+#import "NimConstant.h"
 
 @interface Team: NSObject
 {

@@ -235,6 +235,20 @@ RCT_EXPORT_METHOD(getTeam
 }
 
 /**
+ * 获取我的群
+ */
+RCT_EXPORT_METHOD(getTeams
+                  :(RCTPromiseResolveBlock)resolve
+                  :(RCTPromiseRejectBlock)reject){
+    NSMutableArray *teams = [[NSMutableArray alloc]init];
+    for (NIMTeam *nimTeam in [NIMSDK sharedSDK].teamManager.allMyTeams) {
+        NSDictionary *team = [[Team alloc] initWithTeam:nimTeam].getTeam;
+        [teams addObject:team];
+    }
+    resolve(teams);
+}
+
+/**
  * 获取单个消息
  */
 RCT_EXPORT_METHOD(getMessage

@@ -11,9 +11,17 @@
     return self;
 }
 
+-(instancetype)initWithTeam: (NIMTeam *)team
+{
+    if (self = [super init]) {
+        self->team = team;
+    }
+    return self;
+}
+
 -(NSDictionary *)getTeam
 {
-    __block NIMTeam *team = [[NIMSDK sharedSDK].teamManager teamById:self->teamId];
+    __block NIMTeam *team = self->team ? self->team : [[NIMSDK sharedSDK].teamManager teamById:self->teamId];
 
     if (!team) {
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
@@ -38,14 +46,15 @@
         @"id": team.teamId,
         @"name": team.teamName ? team.teamName : [NSNull null],
         @"avatar": team.avatarUrl ? team.avatarUrl : [NSNull null],
-        @"type": [@(team.type) stringValue],
+        @"type": @(team.type),
         @"creator": team.owner ? team.owner : [NSNull null],
         @"announcement": team.announcement ? team.announcement : [NSNull null],
         @"introduce": team.intro ? team.intro : [NSNull null],
-        @"memberCount": [@(team.memberNumber) stringValue],
-        @"memberLimit": [@(team.level) stringValue],
-        @"verifyType": [@(team.joinMode) stringValue],
-        @"createTime": [@(team.createTime) stringValue]
+        @"memberCount": @(team.memberNumber),
+        @"memberLimit": @(team.level),
+        @"notify": @(team.notifyStateForNewMsg),
+        @"verifyType": @(team.joinMode),
+        @"createTime": [@(team.createTime * 1000) stringValue]
     };
 }
 

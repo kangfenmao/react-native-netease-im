@@ -3,7 +3,9 @@
 @interface Team: NSObject
 {
 @public NSString *teamId;
+@public NIMTeam *team;
 }
--(id)initWithId:(NSString *)teamId;
+-(instancetype)initWithId:(NSString *)teamId;
+-(instancetype)initWithTeam: (NIMTeam *)team;
 -(NSDictionary *)getTeam;
 @end

@@ -16,6 +16,8 @@ import { NeteaseIm } from "@kangfenmao/react-native-netease-im"
 NeteaseIm.foo()
 ```
 
+详细使用方法参考 [App.tsx](example/src/App.tsx)
+
 ## 初始化
 
 1. 在项目入口 index.js 中添加初始化方法
@@ -40,6 +42,29 @@ public void onCreate() {
 }
 ```
 
+## 事件
+
+```js
+const listeners: EmitterSubscription[] = []
+
+listeners.push(
+  // 连接状态改变
+  NeteaseImEvent.addListener('onConnectStatusChanged', (event: NIM.ENUM.ConnectStatus) =>
+    console.log(event)
+  ),
+  // 收到消息
+  NeteaseImEvent.addListener('onMessages', (messages: NIM.Message[]) =>
+    console.log(messages)
+  ),
+  // 会话列表更新
+  NeteaseImEvent.addListener('onConversationsChanged', (conversations: NIM.Conversation[]) =>
+    console.log(conversations)
+  )
+)
+
+// listeners.forEach((listener) => listener.remove())
+```
+
 ## API
 
 ### login
@@ -47,11 +72,8 @@ public void onCreate() {
 备注：此方法用于用户第一次登录
 
 ```js
-const account = 'your account'
-const token = '123456'
-
 try {
-  const result = await NeteaseIm.login(account, token)
+  const result = await NeteaseIm.login('account', 'token')
   console.log(result)
 } catch (error) {
   console.log(error.code, error.message)
@@ -114,7 +136,7 @@ sendMessage(
   text: string,
   type: NimSessionTypeEnum,
   resend: boolean
-): Promise<PromiseResult>
+): Promise<NIM.PromiseResult>
 ```
 
 ### getConversations
@@ -130,29 +152,13 @@ await NeteaseIm.getConversations()
 删除单条会话
 
 ```js
-NeteaseIm.deleteConversation(account, NimSessionTypeEnum.P2P)
-```
-
-```js
-type NimConversation = {
-  contactId: string
-  fromAccount: string
-  fromNick: string
-  sessionType: string
-  messageId: string
-  messageType: string
-  messageStatus: string
-  unreadCount: number
-  content: string
-  time: string
-  extension: string
-}
+NeteaseIm.deleteConversation(account, NIM.ENUM.SessionType.P2P)
 ```
 
 ### SDK version
 
 ```js
- NeteaseIm.sdkVersion
+NeteaseIm.sdkVersion
 ```
 
 
@@ -207,6 +213,21 @@ mixPushConfig.oppoCertificateName = "";
 
 // VIVO
 mixPushConfig.vivoCertificateName = "";
+```
+
+## Example
+
+将项目 clone 到本地
+
+运行
+
+```
+yarn prepair
+```
+修改 example/env.json
+
+```
+yarn example ios
 ```
 
 ## Contributing

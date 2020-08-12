@@ -115,7 +115,8 @@
     "tabWidth": 2,
     "semi": false,
     "trailingComma": "es5",
-    "useTabs": false
+    "useTabs": false,
+    "printWidth": 100
   },
   "@react-native-community/bob": {
     "source": "src",

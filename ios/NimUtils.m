@@ -76,23 +76,17 @@
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];
 
         if (recentSession.session.sessionType == NIMSessionTypeP2P) {
-            Contact *contact = [[Contact alloc] initWithId:id];
-            NSDictionary *contactDict = contact.getContact;
-            if (contactDict) {
-                NSString *avatar = contactDict[@"avatar"] ? contactDict[@"avatar"] : [NSNull null];
-                NSString *name = contactDict[@"name"] ? contactDict[@"name"] : [NSNull null];
-                [conversation setObject:avatar forKey:@"avatar"];
-                [conversation setObject:name forKey:@"name"];
+            NSDictionary *contact = [[Contact alloc] initWithId:id].getContact;
+            if (contact) {
+                [conversation setObject:contact[@"avatar"] forKey:@"avatar"];
+                [conversation setObject:contact[@"name"] forKey:@"name"];
             }
         }
 
         if (recentSession.session.sessionType == NIMSessionTypeTeam) {
-            Team *team = [[Team alloc] initWithId:id];
-            NSDictionary *teamDict = team.getTeam;
-            NSString *avatar = teamDict[@"avatar"] ? teamDict[@"avatar"] : [NSNull null];
-            NSString *name = teamDict[@"name"] ? teamDict[@"name"] : [NSNull null];
-            [conversation setValue:avatar forKey:@"avatar"];
-            [conversation setObject:name forKey:@"name"];
+            NSDictionary *team = [[Team alloc] initWithId:id].getTeam;
+            [conversation setValue:team[@"avatar"] forKey:@"avatar"];
+            [conversation setObject:team[@"name"] forKey:@"name"];
         }
 
         conversations[i] = conversation;

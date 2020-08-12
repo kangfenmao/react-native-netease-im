@@ -1,16 +1,6 @@
 import React, { useEffect, useCallback } from 'react'
-import {
-  StyleSheet,
-  View,
-  Button,
-  EmitterSubscription,
-  Platform,
-} from 'react-native'
-import {
-  NeteaseIm,
-  NeteaseImEvent,
-  NimSessionTypeEnum,
-} from '@kangfenmao/react-native-netease-im'
+import { StyleSheet, View, Button, EmitterSubscription, Platform } from 'react-native'
+import { NeteaseIm, NeteaseImEvent, NIM } from '@kangfenmao/react-native-netease-im'
 import ENV from '../env.json'
 
 export default function App() {
@@ -21,12 +11,12 @@ export default function App() {
 
   const toUser = {
     account: Platform.OS === 'ios' ? 'excitedcat' : 'kangfenmao',
-    sessionType: NimSessionTypeEnum.P2P,
+    sessionType: NIM.ENUM.SessionType.P2P,
   }
 
   const toTeam = {
     account: '2872214734',
-    sessionType: NimSessionTypeEnum.Team,
+    sessionType: NIM.ENUM.SessionType.Team,
   }
 
   const init = useCallback(() => {
@@ -38,13 +28,11 @@ export default function App() {
     const listeners: EmitterSubscription[] = []
 
     listeners.push(
-      NeteaseImEvent.addListener('onConnectStatusChanged', (event) =>
+      NeteaseImEvent.addListener('onConnectStatusChanged', (event: NIM.ConnectStatus) =>
         console.log(event)
       ),
-      NeteaseImEvent.addListener('onMessages', (messages) =>
-        console.log(messages)
-      ),
-      NeteaseImEvent.addListener('onConversationsChanged', (conversations) =>
+      NeteaseImEvent.addListener('onMessages', (messages: NIM.Message[]) => console.log(messages)),
+      NeteaseImEvent.addListener('onConversationsChanged', (conversations: NIM.Conversation[]) =>
         console.log(conversations)
       )
     )
@@ -83,9 +71,9 @@ export default function App() {
     NeteaseIm.logout()
   }
 
-  const sendMessage = async (sessionType: NimSessionTypeEnum) => {
+  const sendMessage = async (sessionType: NIM.ENUM.SessionType) => {
     const randomString = Math.random().toString(36).substr(2)
-    const user = sessionType === NimSessionTypeEnum.P2P ? toUser : toTeam
+    const user = sessionType === NIM.ENUM.SessionType.P2P ? toUser : toTeam
 
     try {
       const result = await NeteaseIm.sendMessage(
@@ -124,14 +112,8 @@ export default function App() {
       <Button title="是否登录" onPress={getLoggined} />
       <Button title="连接状态" onPress={getConnectStatus} />
       <Button title="退出" onPress={logout} />
-      <Button
-        title="发消息(P2P)"
-        onPress={() => sendMessage(NimSessionTypeEnum.P2P)}
-      />
-      <Button
-        title="发消息(Team)"
-        onPress={() => sendMessage(NimSessionTypeEnum.Team)}
-      />
+      <Button title="发消息(P2P)" onPress={() => sendMessage(NIM.ENUM.SessionType.P2P)} />
+      <Button title="发消息(Team)" onPress={() => sendMessage(NIM.ENUM.SessionType.P2P)} />
       <Button title="最近会话" onPress={getConversations} />
       <Button title="删除一条对话" onPress={deleteConversation} />
       <Button title="我的群" onPress={getTeams} />

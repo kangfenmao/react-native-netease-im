@@ -51,11 +51,11 @@
         @"creator": team.owner ? team.owner : [NSNull null],
         @"announcement": team.announcement ? team.announcement : [NSNull null],
         @"introduce": team.intro ? team.intro : [NSNull null],
-        @"memberCount": @(team.memberNumber),
-        @"memberLimit": @(team.level),
+        @"member_count": @(team.memberNumber),
+        @"member_limit": @(team.level),
         @"notify": nimConstant->notifyType[team.notifyStateForNewMsg],
-        @"verifyType": nimConstant->verifyType[team.joinMode],
-        @"createTime": [@(team.createTime * 1000) stringValue]
+        @"verify_type": nimConstant->verifyType[team.joinMode],
+        @"create_time": [@(team.createTime * 1000) stringValue]
     };
 }
 

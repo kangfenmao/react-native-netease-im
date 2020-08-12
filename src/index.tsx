@@ -41,7 +41,7 @@ export namespace NIM {
     avatar: string
     content: string
     type: string
-    unreadCount: number
+    unread_count: number
     time: string
   }
   export type Contact = {
@@ -74,11 +74,11 @@ export namespace NIM {
     creator: string
     announcement: string
     introduce: string
-    memberCount: number
-    memberLimit: number
-    notifyType: NIM.ENUM.TeamNotifyType
-    verifyType: NIM.ENUM.TeamVerifyType
-    createTime: string
+    member_count: number
+    member_limit: number
+    notify_type: NIM.ENUM.TeamNotifyType
+    verify_type: NIM.ENUM.TeamVerifyType
+    create_time: string
   }
   export namespace ENUM {
     export enum SessionType {

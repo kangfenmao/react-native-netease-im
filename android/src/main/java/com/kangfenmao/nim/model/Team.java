@@ -33,11 +33,11 @@ public class Team {
     map.putString("creator", team.getCreator());
     map.putString("announcement", team.getAnnouncement());
     map.putString("introduce", team.getIntroduce());
-    map.putInt("memberCount", team.getMemberCount());
-    map.putInt("memberLimit", team.getMemberLimit());
+    map.putInt("member_count", team.getMemberCount());
+    map.putInt("member_limit", team.getMemberLimit());
     map.putString("notify", team.getMessageNotifyType().toString());
-    map.putString("verifyType", String.valueOf(team.getVerifyType()));
-    map.putString("createTime", String.valueOf(team.getCreateTime()));
+    map.putString("verify_type", String.valueOf(team.getVerifyType()));
+    map.putString("create_time", String.valueOf(team.getCreateTime()));
 
     return map;
   }

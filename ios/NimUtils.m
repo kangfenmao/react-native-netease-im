@@ -70,7 +70,7 @@
         NSMutableDictionary *conversation = [[NSMutableDictionary alloc] init];
 
         [conversation setObject:id forKey:@"id"];
-        [conversation setObject:recentSession.lastMessage.text ? recentSession.lastMessage.text : [NSNull null] forKey:@"content"];
+        [conversation setObject:recentSession.lastMessage ? recentSession.lastMessage.text : [NSNull null] forKey:@"content"];
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];

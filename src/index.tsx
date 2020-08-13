@@ -65,11 +65,13 @@ export namespace NIM {
     session_type: string
     account: string
     nickname: string
+    avatar: string
     content: string
-    extension: string
     time: string
-    type: string
     direct: string
+    extension: string
+    type: string
+    status: string
   }
   export type Team = {
     id: string

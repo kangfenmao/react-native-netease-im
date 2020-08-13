@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.kangfenmao.nim.model.Message;
 import com.kangfenmao.nim.utils.Utils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -63,20 +64,8 @@ public class NeteaseImObserver {
           WritableArray messages = Arguments.createArray();
 
           for (int i = 0; i < imMessages.size(); i++) {
-            WritableMap message = Arguments.createMap();
-            IMMessage imMessage = imMessages.get(i);
-            message.putString("id", imMessage.getUuid());
-            message.putString("session_id", imMessage.getSessionId());
-            message.putString("session_type", imMessage.getSessionType().toString());
-            message.putString("from_account", imMessage.getFromAccount());
-            message.putString("from_nick", imMessage.getFromNick());
-            message.putString("type", imMessage.getMsgType().toString());
-            message.putString("status", imMessage.getStatus().toString());
-            message.putString("direct", imMessage.getDirect().toString());
-            message.putString("content", imMessage.getContent());
-            message.putString("time", String.valueOf(imMessage.getTime()));
-            message.putString("extension", JSON.toJSONString(imMessage.getRemoteExtension()));
-            messages.pushMap(message);
+            Message message = new Message(imMessages.get(i));
+            messages.pushMap(message.getMessage());
           }
 
           sendEvent("onMessages", messages);

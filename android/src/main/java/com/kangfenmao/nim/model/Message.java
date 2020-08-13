@@ -12,32 +12,39 @@ import java.util.List;
 
 public class Message {
   String id;
+  IMMessage message;
 
   public Message(String id) {
     this.id = id;
   }
 
-  public WritableMap getMessage() {
-    List<String> uuids = new ArrayList<>();
-    uuids.add(this.id);
-    List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(uuids);
-    WritableMap message = Arguments.createMap();
+  public Message(IMMessage message) {
+    this.message = message;
+  }
 
-    if (imMessages.size() > 0) {
-      IMMessage imMessage = imMessages.get(0);
-      message.putString("id", imMessage.getUuid());
-      message.putString("session_id", imMessage.getSessionId());
-      message.putString("session_type", imMessage.getSessionType().toString());
-      message.putString("account", imMessage.getFromAccount());
-      message.putString("nickname", imMessage.getFromNick());
-      message.putString("content", imMessage.getContent());
-      message.putString("extension", JSON.toJSONString(imMessage.getRemoteExtension()));
-      message.putString("time", String.valueOf(imMessage.getTime()));
-      message.putString("type", imMessage.getMsgType().toString());
-      message.putString("direct", imMessage.getDirect().toString());
+  private WritableMap format(IMMessage imMessage) {
+    if (imMessage == null) {
+      return null;
     }
 
-    return imMessages.size() > 0 ? message : null;
+    WritableMap message = Arguments.createMap();
+    message.putString("id", imMessage.getUuid());
+    message.putString("session_id", imMessage.getSessionId());
+    message.putString("session_type", imMessage.getSessionType().toString());
+    message.putString("account", imMessage.getFromAccount());
+    message.putString("nickname", imMessage.getFromNick());
+    message.putString("avatar", new Contact(imMessage.getFromAccount()).getContact().getString("avatar"));
+    message.putString("content", imMessage.getContent());
+    message.putString("extension", JSON.toJSONString(imMessage.getRemoteExtension()));
+    message.putString("time", String.valueOf(imMessage.getTime()));
+    message.putString("type", imMessage.getMsgType().toString());
+    message.putString("direct", imMessage.getDirect().toString());
+
+    return message;
+  }
+
+  public WritableMap getMessage() {
+    return this.format(this.getImMessage());
   }
 
   public IMMessage getImMessage() {
@@ -45,6 +52,6 @@ public class Message {
     uuids.add(this.id);
     List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(uuids);
 
-    return imMessages.size() > 0 ? imMessages.get(0) : null;
+    return imMessages.get(0);
   }
 }

@@ -316,7 +316,7 @@ RCT_EXPORT_METHOD(getHistoryMessages
 
     for (int i = 0; i < imMessages.count; i++) {
         NIMMessage *imMessage = imMessages[i];
-        Message *message = [[Message alloc] initWithParams:imMessage.messageId :imMessage.from :imMessage.session.sessionType];
+        Message *message = [[Message alloc] initWithMessage:imMessage];
         messages[i] = message.getMessage;
     }
 

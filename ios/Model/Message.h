@@ -1,6 +1,7 @@
 
 #import <NIMSDK/NIMSDK.h>
 #import "NimConstant.h"
+#import "Contact.h"
 
 @interface Message: NSObject
 {

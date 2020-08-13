@@ -49,7 +49,7 @@ const listeners: EmitterSubscription[] = []
 
 listeners.push(
   // 连接状态改变
-  NeteaseImEvent.addListener('onConnectStatusChanged', (event: NIM.ENUM.ConnectStatus) =>
+  NeteaseImEvent.addListener('onConnectStatusChanged', (event: ConnectStatus) =>
     console.log(event)
   ),
   // 收到消息
@@ -139,6 +139,30 @@ sendMessage(
 ): Promise<NIM.PromiseResult>
 ```
 
+### getMessage
+
+获取一条消息
+
+```js
+getMessage(messageId: string, account: string, sessionType: SessionTypeEnum): Promise<NIM.Message>
+```
+
+### getHistoryMessages
+
+获取历史消息
+
+```js
+getHistoryMessages(
+  sessionId: string,
+  sessionType: string,
+  messageId: string,
+  limit: number,
+  asc: boolean
+): Promise<NIM.Message[]>
+```
+
+messageId 为空字符串时查询最新的历史消息
+
 ### getConversations
 
 获取最近会话列表
@@ -152,7 +176,7 @@ await NeteaseIm.getConversations()
 删除单条会话
 
 ```js
-NeteaseIm.deleteConversation(account, NIM.ENUM.SessionType.P2P)
+NeteaseIm.deleteConversation(account, SessionType.P2P)
 ```
 
 ### SDK version

@@ -22,6 +22,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.TeamService;
 
@@ -282,5 +283,41 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
   public void getMessage(String messageId, String account, String sessionType, Promise promise) {
     Message message = new Message(messageId);
     promise.resolve(message.getMessage());
+  }
+
+  /**
+   * 获取历史消息
+   */
+  @ReactMethod
+  public void getHistoryMessages(String sessionId, String sessionType, String messageId, int limit, boolean asc, Promise promise) {
+    WritableArray messages = Arguments.createArray();
+    IMMessage anchor = null;
+
+    if (messageId.length() == 0) {
+      IMMessage lastMessage = NIMClient.getService(MsgService.class).queryLastMessage(sessionId, SessionTypeEnum.valueOf(sessionType));
+      anchor = lastMessage;
+    } else {
+      anchor = new Message(messageId).getImMessage();
+    }
+
+    if (anchor == null) {
+      promise.resolve(messages);
+      return;
+    }
+
+    List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListExBlock(
+      anchor,
+      QueryDirectionEnum.QUERY_OLD,
+      limit,
+      asc
+    );
+
+    for (int i = 0; i < imMessages.size(); i++) {
+      IMMessage imMessage = imMessages.get(i);
+      Message message = new Message(imMessage.getUuid());
+      messages.pushMap(message.getMessage());
+    }
+
+    promise.resolve(messages);
   }
 }

@@ -53,8 +53,8 @@
         @"introduce": team.intro ? team.intro : [NSNull null],
         @"member_count": @(team.memberNumber),
         @"member_limit": @(team.level),
-        @"notify": nimConstant->notifyType[team.notifyStateForNewMsg],
-        @"verify_type": nimConstant->verifyType[team.joinMode],
+        @"notify_type": nimConstant->teamNotifyType[team.notifyStateForNewMsg],
+        @"verify_type": nimConstant->teamVerifyType[team.joinMode],
         @"create_time": [@(team.createTime * 1000) stringValue]
     };
 }

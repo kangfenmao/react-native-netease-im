@@ -1,6 +1,11 @@
 import React, { useEffect, useCallback } from 'react'
 import { StyleSheet, View, Button, EmitterSubscription, Platform } from 'react-native'
-import { NeteaseIm, NeteaseImEvent, NIM } from '@kangfenmao/react-native-netease-im'
+import {
+  NeteaseIm,
+  NeteaseImEvent,
+  NIM,
+  SessionTypeEnum,
+} from '@kangfenmao/react-native-netease-im'
 import ENV from '../env.json'
 
 export default function App() {
@@ -11,12 +16,12 @@ export default function App() {
 
   const toUser = {
     account: Platform.OS === 'ios' ? 'excitedcat' : 'kangfenmao',
-    sessionType: NIM.ENUM.SessionType.P2P,
+    sessionType: SessionTypeEnum.P2P,
   }
 
   const toTeam = {
     account: '2872214734',
-    sessionType: NIM.ENUM.SessionType.Team,
+    sessionType: SessionTypeEnum.Team,
   }
 
   const init = useCallback(() => {
@@ -71,9 +76,9 @@ export default function App() {
     NeteaseIm.logout()
   }
 
-  const sendMessage = async (sessionType: NIM.ENUM.SessionType) => {
+  const sendMessage = async (sessionType: SessionTypeEnum) => {
     const randomString = Math.random().toString(36).substr(2)
-    const user = sessionType === NIM.ENUM.SessionType.P2P ? toUser : toTeam
+    const user = sessionType === SessionTypeEnum.P2P ? toUser : toTeam
 
     try {
       const result = await NeteaseIm.sendMessage(
@@ -86,6 +91,28 @@ export default function App() {
     } catch (error) {
       console.log({ code: error.code, message: error.message })
     }
+  }
+
+  const getMessage = async () => {
+    const message = await NeteaseIm.getMessage(
+      'fbf2d6bc-04c0-4e7c-9c0d-1ab9046bde3b',
+      toUser.account,
+      SessionTypeEnum.P2P
+    )
+
+    console.log(message)
+  }
+
+  const getHistoryMessages = async () => {
+    const messages = await NeteaseIm.getHistoryMessages(
+      toUser.account,
+      SessionTypeEnum.P2P,
+      '',
+      20,
+      true
+    )
+
+    console.log(messages)
   }
 
   const getConversations = async () => {
@@ -112,10 +139,12 @@ export default function App() {
       <Button title="是否登录" onPress={getLoggined} />
       <Button title="连接状态" onPress={getConnectStatus} />
       <Button title="退出" onPress={logout} />
-      <Button title="发消息(P2P)" onPress={() => sendMessage(NIM.ENUM.SessionType.P2P)} />
-      <Button title="发消息(Team)" onPress={() => sendMessage(NIM.ENUM.SessionType.P2P)} />
+      <Button title="发消息(P2P)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
+      <Button title="发消息(Team)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
+      <Button title="获取一条消息" onPress={getMessage} />
+      <Button title="历史消息" onPress={getHistoryMessages} />
       <Button title="最近会话" onPress={getConversations} />
-      <Button title="删除一条对话" onPress={deleteConversation} />
+      <Button title="删除一条会话" onPress={deleteConversation} />
       <Button title="我的群" onPress={getTeams} />
       <Button title="SDK" onPress={getSdkVersion} />
     </View>

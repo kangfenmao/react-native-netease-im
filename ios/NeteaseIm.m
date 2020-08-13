@@ -264,6 +264,39 @@ RCT_EXPORT_METHOD(getMessage
 }
 
 /**
+ * 获取单个消息
+ */
+RCT_EXPORT_METHOD(getHistoryMessages
+                  :(NSString *)sessionId
+                  :(NSString *)sessionType
+                  :(NSString *)messageId
+                  :(int)limitCount
+                  :(BOOL)asc
+                  :(RCTPromiseResolveBlock)resolve
+                  :(RCTPromiseRejectBlock)reject){
+    NIMMessage *anchor = nil;
+    NimConstant *nimConstant = [[NimConstant alloc] init];
+    NIMSessionType nimSessionType = [nimConstant->sessionType indexOfObject:sessionType];
+
+    if (messageId.length > 0) {
+        anchor = [[Message alloc] initWithParams:messageId :sessionId :nimSessionType].getImMessage;
+    }
+
+    // 构造一个 session
+    NIMSession *session = [NIMSession session:sessionId type:nimSessionType];
+
+    NSArray<NIMMessage *> *nimMessages = [[[NIMSDK sharedSDK] conversationManager] messagesInSession:session message:anchor limit:limitCount];
+    NSMutableArray *messages = [[NSMutableArray alloc]init];
+
+    for (NIMMessage *nimMessage in nimMessages) {
+        NSDictionary *message = [[Message alloc] initWithMessage:nimMessage].getMessage;
+        [messages addObject:message];
+    }
+
+    resolve(messages);
+}
+
+/**
  *  连接状态事件
  *  @param step 登录步骤
  *  @discussion 这个回调主要用于客户端UI的刷新

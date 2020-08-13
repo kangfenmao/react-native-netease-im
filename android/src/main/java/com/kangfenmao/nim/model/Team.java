@@ -35,7 +35,7 @@ public class Team {
     map.putString("introduce", team.getIntroduce());
     map.putInt("member_count", team.getMemberCount());
     map.putInt("member_limit", team.getMemberLimit());
-    map.putString("notify", team.getMessageNotifyType().toString());
+    map.putString("notify_type", team.getMessageNotifyType().toString());
     map.putString("verify_type", String.valueOf(team.getVerifyType()));
     map.putString("create_time", String.valueOf(team.getCreateTime()));
 

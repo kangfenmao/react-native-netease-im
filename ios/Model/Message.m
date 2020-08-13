@@ -12,12 +12,24 @@
     return self;
 }
 
+-(instancetype)initWithMessage:(NIMMessage *)message
+{
+    if (self = [super init]) {
+        self->message = message;
+    }
+    return self;
+}
+
 -(NSDictionary *)getMessage
 {
+    NIMMessage *message = self->message;
     NimConstant *nimConstant = [[NimConstant alloc] init];
-    NIMSession *session = [NIMSession session:self->account type:self->sessionType];
-    NSArray<NIMMessage *> *nimMessages = [[[NIMSDK sharedSDK] conversationManager] messagesInSession:session messageIds:@[self->messageId]];
-    NIMMessage *message = nimMessages[0];
+
+    if (!message) {
+        NIMSession *session = [NIMSession session:self->account type:self->sessionType];
+        NSArray<NIMMessage *> *nimMessages = [[[NIMSDK sharedSDK] conversationManager] messagesInSession:session messageIds:@[self->messageId]];
+        message = nimMessages.count > 0 ? nimMessages[0] : nil;
+    }
 
     if (!message) {
         return nil;
@@ -33,7 +45,7 @@
         // 发送方的帐号
         @"from_account": message.from,
         // 发送者的昵称
-        @"from_nick": message.senderName,
+        @"from_nick": message.senderName ? message.senderName : @"",
         // 消息类型
         @"type": nimConstant->messageType[message.messageType],
         // 消息投递状态
@@ -41,7 +53,7 @@
         // 消息方向
         @"direct": message.isReceivedMsg ? @"In" : @"Out",
         // 消息文本
-        @"content": message.text,
+        @"content": message.text ? message.text : @"",
         // 回复时间
         @"time": @(message.timestamp * 1000),
         // 会话服务扩展字段
@@ -49,6 +61,19 @@
     };
 
     return dict;
+}
+
+-(NIMMessage *)getImMessage
+{
+    NIMMessage *message = self->message;
+
+    if (!message) {
+        NIMSession *session = [NIMSession session:self->account type:self->sessionType];
+        NSArray<NIMMessage *> *nimMessages = [[[NIMSDK sharedSDK] conversationManager] messagesInSession:session messageIds:@[self->messageId]];
+        message = nimMessages.count > 0 ? nimMessages[0] : nil;
+    }
+
+    return message;
 }
 
 @end

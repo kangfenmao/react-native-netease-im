@@ -69,8 +69,14 @@
 
         NSMutableDictionary *conversation = [[NSMutableDictionary alloc] init];
 
+        NSString *content = @"";
+
+        if (recentSession.lastMessage && recentSession.lastMessage && recentSession.lastMessage.text) {
+            content = recentSession.lastMessage.text;
+        }
+
         [conversation setObject:id forKey:@"id"];
-        [conversation setObject:recentSession.lastMessage ? recentSession.lastMessage.text : [NSNull null] forKey:@"content"];
+        [conversation setObject:content.length == 0 ? [NSNull null] : content forKey:@"content"];
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];
@@ -87,6 +93,8 @@
             NSDictionary *team = [[Team alloc] initWithId:id].getTeam;
             [conversation setValue:team[@"avatar"] forKey:@"avatar"];
             [conversation setObject:team[@"name"] forKey:@"name"];
+            [conversation setObject:team[@"notify_type"] forKey:@"notify_type"];
+            [conversation setObject:team[@"verify_type"] forKey:@"verify_type"];
         }
 
         conversations[i] = conversation;

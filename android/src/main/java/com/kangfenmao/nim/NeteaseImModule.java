@@ -228,8 +228,17 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
     NIMClient.getService(MsgService.class).queryRecentContacts()
       .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
         @Override
-        public void onResult(int code, List<RecentContact> messages, Throwable e) {
-          promise.resolve(Utils.getConversationsFromRecentContacts(messages));
+        public void onResult(int code, List<RecentContact> messages, Throwable error) {
+          if (error == null) {
+            try {
+              promise.resolve(Utils.getConversationsFromRecentContacts(messages));
+            } catch (InterruptedException exception) {
+              exception.printStackTrace();
+              promise.reject("-1", exception.getMessage(), exception);
+            }
+          } else {
+            promise.resolve(Arguments.createArray());
+          }
         }
       });
   }
@@ -270,7 +279,7 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
    * 获取联系人信息
    */
   @ReactMethod
-  public void getContact(String account, Promise promise) {
+  public void getContact(String account, Promise promise) throws InterruptedException {
     Contact contact = new Contact(account);
     promise.resolve(contact.getContact());
   }
@@ -292,6 +301,11 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
     List<com.netease.nimlib.sdk.team.model.Team> teams = NIMClient.getService(TeamService.class).queryTeamListBlock();
     WritableArray array = Arguments.createArray();
 
+    if (teams == null) {
+      promise.resolve(array);
+      return;
+    }
+
     for (int i = 0; i < teams.size(); i++) {
       Team team = new Team(teams.get(i));
       array.pushMap(team.getTeam());
@@ -304,7 +318,7 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
    * 获取单个消息
    */
   @ReactMethod
-  public void getMessage(String messageId, String account, String sessionType, Promise promise) {
+  public void getMessage(String messageId, String account, String sessionType, Promise promise) throws InterruptedException {
     Message message = new Message(messageId);
     promise.resolve(message.getMessage());
   }
@@ -313,7 +327,7 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
    * 获取历史消息
    */
   @ReactMethod
-  public void getHistoryMessages(String sessionId, String sessionType, String messageId, int limit, boolean asc, Promise promise) {
+  public void getHistoryMessages(String sessionId, String sessionType, String messageId, int limit, boolean asc, Promise promise) throws InterruptedException {
     WritableArray messages = Arguments.createArray();
     IMMessage anchor = null;
 

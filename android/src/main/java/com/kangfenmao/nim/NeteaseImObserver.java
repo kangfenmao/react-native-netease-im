@@ -2,7 +2,6 @@ package com.kangfenmao.nim;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.fastjson.JSON;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableArray;
@@ -60,15 +59,21 @@ public class NeteaseImObserver {
       new Observer<List<IMMessage>>() {
         @Override
         public void onEvent(List<IMMessage> imMessages) {
-          // 处理新收到的消息，为了上传处理方便，SDK 保证参数 messages 全部来自同一个聊天对象。
-          WritableArray messages = Arguments.createArray();
+          new Thread(() -> {
+            // 处理新收到的消息，为了上传处理方便，SDK 保证参数 messages 全部来自同一个聊天对象。
+            WritableArray messages = Arguments.createArray();
 
-          for (int i = 0; i < imMessages.size(); i++) {
-            Message message = new Message(imMessages.get(i));
-            messages.pushMap(message.getMessage());
-          }
+            for (int i = 0; i < imMessages.size(); i++) {
+              Message message = new Message(imMessages.get(i));
+              try {
+                messages.pushMap(message.getMessage());
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            }
 
-          sendEvent("onMessages", messages);
+            sendEvent("onMessages", messages);
+          }).start();
         }
       };
 
@@ -100,7 +105,13 @@ public class NeteaseImObserver {
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
       @Override
       public void onEvent(List<RecentContact> messages) {
-        sendEvent("onConversationsChanged", Utils.getConversationsFromRecentContacts(messages));
+        new Thread(() -> {
+          try {
+            sendEvent("onConversationsChanged", Utils.getConversationsFromRecentContacts(messages));
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }).start();
       }
     };
 

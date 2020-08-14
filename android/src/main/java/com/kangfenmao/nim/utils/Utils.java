@@ -112,7 +112,7 @@ public class Utils {
    * @param recentContacts
    * @return
    */
-  static public WritableArray getConversationsFromRecentContacts(List<RecentContact> recentContacts) {
+  static public WritableArray getConversationsFromRecentContacts(List<RecentContact> recentContacts) throws InterruptedException {
     WritableArray conversations = Arguments.createArray();
 
     for (int i = 0; i < recentContacts.size(); i++) {
@@ -132,6 +132,11 @@ public class Utils {
       // P2P
       if (sessionType == SessionTypeEnum.P2P) {
         WritableMap contact = new Contact(id).getContact();
+
+        if (contact == null) {
+          return Arguments.createArray();
+        }
+
         conversation.putString("name", contact.getString("name"));
         conversation.putString("avatar", contact.getString("avatar"));
       }

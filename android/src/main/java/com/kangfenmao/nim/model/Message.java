@@ -22,7 +22,7 @@ public class Message {
     this.message = message;
   }
 
-  private WritableMap format(IMMessage imMessage) {
+  private WritableMap format(IMMessage imMessage) throws InterruptedException {
     if (imMessage == null) {
       return null;
     }
@@ -43,7 +43,7 @@ public class Message {
     return message;
   }
 
-  public WritableMap getMessage() {
+  public WritableMap getMessage() throws InterruptedException {
     return this.format(this.getImMessage());
   }
 

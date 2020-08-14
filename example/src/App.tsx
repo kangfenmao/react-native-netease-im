@@ -148,7 +148,7 @@ export default function App() {
       <Button title="是否登录" onPress={getLoggined} />
       <Button title="连接状态" onPress={getConnectStatus} />
       <Button title="发消息(P2P)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
-      <Button title="发消息(Team)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
+      <Button title="发消息(Team)" onPress={() => sendMessage(SessionTypeEnum.Team)} />
       <Button title="获取一条消息" onPress={getMessage} />
       <Button title="历史消息" onPress={getHistoryMessages} />
       <Button title="最近会话" onPress={getConversations} />

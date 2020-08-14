@@ -20,11 +20,11 @@ public class Contact {
   }
 
   public synchronized WritableMap getContact() throws InterruptedException {
-    final CountDownLatch latch = new CountDownLatch(1);
-
     this.user = NIMClient.getService(UserService.class).getUserInfo(this.account);
 
     if (this.user == null) {
+      final CountDownLatch latch = new CountDownLatch(1);
+
       List<String> accounts = new ArrayList<>();
       accounts.add(this.account);
 
@@ -37,9 +37,9 @@ public class Contact {
           latch.countDown();
         }
       });
-    }
 
-    latch.await();
+      latch.await();
+    }
 
     if (this.user == null) {
       return null;

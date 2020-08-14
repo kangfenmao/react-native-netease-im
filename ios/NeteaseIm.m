@@ -11,11 +11,6 @@ RCT_EXPORT_MODULE()
     return @[@"onConnectStatusChanged", @"onMessages", @"onConversationsChanged"];
 }
 
-+ (BOOL)requiresMainQueueSetup
-{
-    return YES;
-}
-
 - (NSDictionary *)constantsToExport
 {
     return @{
@@ -312,15 +307,17 @@ RCT_EXPORT_METHOD(getHistoryMessages
  * @param imMessages 消息
  */
 - (void)onRecvMessages:(NSArray<NIMMessage *> *)imMessages{
-    NSMutableArray *messages = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableArray *messages = [NSMutableArray array];
 
-    for (int i = 0; i < imMessages.count; i++) {
-        NIMMessage *imMessage = imMessages[i];
-        Message *message = [[Message alloc] initWithMessage:imMessage];
-        messages[i] = message.getMessage;
-    }
+        for (int i = 0; i < imMessages.count; i++) {
+            NIMMessage *imMessage = imMessages[i];
+            Message *message = [[Message alloc] initWithMessage:imMessage];
+            messages[i] = message.getMessage;
+        }
 
-    [self sendEventWithName:@"onMessages" body:messages];
+        [self sendEventWithName:@"onMessages" body:messages];
+    });
 }
 
 /**

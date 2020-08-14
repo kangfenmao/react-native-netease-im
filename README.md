@@ -222,7 +222,7 @@ mixPushConfig 配置
 MixPushConfig mixPushConfig = new MixPushConfig();
 
 // 小米推送
-mixPushConfig.xmAppId = pushOptions.get("xmAppId");
+mixPushConfig.xmAppId = "";
 mixPushConfig.xmAppKey = "";
 mixPushConfig.xmCertificateName = "";
 

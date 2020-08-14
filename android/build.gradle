@@ -123,7 +123,7 @@ dependencies {
   api 'com.facebook.react:react-native:+'
 
   // netease im sdk
-  implementation "com.netease.nimlib:basesdk:$netease_sdk_version"
-  implementation "com.netease.nimlib:push:$netease_sdk_version"
+  api "com.netease.nimlib:basesdk:$netease_sdk_version"
+  api "com.netease.nimlib:push:$netease_sdk_version"
   implementation 'com.alibaba:fastjson:1.1.72.android'
 }

@@ -235,11 +235,21 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
   }
 
   /**
-   * 删除对话
+   * 删除单条会话
    */
   @ReactMethod
-  public void deleteConversation(String account, String sessionType) {
-    NIMClient.getService(MsgService.class).deleteRecentContact2(account, SessionTypeEnum.valueOf(sessionType));
+  public void deleteConversation(String sessionId, String sessionType) {
+    NIMClient.getService(MsgService.class).deleteRecentContact2(sessionId, SessionTypeEnum.valueOf(sessionType));
+  }
+
+  /**
+   * 重置会话未读数
+   * @param sessionId
+   * @param sessionType
+   */
+  @ReactMethod
+  public void resetConversationUnreadCount(String sessionId, String sessionType) {
+    NIMClient.getService(MsgService.class).clearUnreadCount(sessionId, SessionTypeEnum.valueOf(sessionType));
   }
 
   /**

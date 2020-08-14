@@ -64,11 +64,10 @@ RCT_EXPORT_METHOD(login
             [storage synchronize];
 
             resolve(@{@"code": code, @"message": message});
-        }else{
+        } else {
             NSString *code = [@(error.code) stringValue];
-            NSString *strEorr = @"登录失败";
-            reject(code,strEorr, error);
-            NSLog(@"%@:%@",strEorr,error);
+            NSString *message = @"登录失败";
+            reject(code, message, error);
         }
     }];
 }
@@ -194,18 +193,31 @@ RCT_EXPORT_METHOD(getConversations
 }
 
 /**
- * 删除单条最近对话
+ * 删除单条会话
  */
 RCT_EXPORT_METHOD(deleteConversation
-                  :(NSString *)conversationId
+                  :(NSString *)sessionId
                   :(NSString *)sessionType){
     NimConstant *nimConstant = [[NimConstant alloc] init];
     NIMSessionType nimSessionType = [nimConstant->sessionType indexOfObject:sessionType];
-    NIMSession *session = [NIMSession session:conversationId type:nimSessionType];
+    NIMSession *session = [NIMSession session:sessionId type:nimSessionType];
 
     NIMRecentSession *recentSession = [[NIMSDK sharedSDK].conversationManager recentSessionBySession:session];
     [[NIMSDK sharedSDK].conversationManager deleteRecentSession:recentSession];
 }
+
+/**
+ * 重置会话未读数
+ */
+RCT_EXPORT_METHOD(resetConversationUnreadCount
+                  :(NSString *)sessionId
+                  :(NSString *)sessionType){
+    NimConstant *nimConstant = [[NimConstant alloc] init];
+    NIMSessionType nimSessionType = [nimConstant->sessionType indexOfObject:sessionType];
+    NIMSession *session = [NIMSession session:sessionId type:nimSessionType];
+    [[NIMSDK sharedSDK].conversationManager markAllMessagesReadInSession:session];
+}
+
 
 /**
  * 获取联系人信息
@@ -259,7 +271,7 @@ RCT_EXPORT_METHOD(getMessage
 }
 
 /**
- * 获取单个消息
+ * 获取历史消息
  */
 RCT_EXPORT_METHOD(getHistoryMessages
                   :(NSString *)sessionId

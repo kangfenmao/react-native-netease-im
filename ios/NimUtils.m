@@ -71,7 +71,7 @@
 
         NSString *content = @"";
 
-        if (recentSession.lastMessage && recentSession.lastMessage && recentSession.lastMessage.text) {
+        if (recentSession.lastMessage && recentSession.lastMessage.text) {
             content = recentSession.lastMessage.text;
         }
 

@@ -176,7 +176,13 @@ await NeteaseIm.getConversations()
 删除单条会话
 
 ```js
-NeteaseIm.deleteConversation(account, SessionType.P2P)
+NeteaseIm.deleteConversation(sessionId, SessionType.P2P)
+```
+
+重置会话未读数
+
+```js
+NeteaseIm.resetConversationUnreadCount(sessionId, SessionTypeEnum.P2P)
 ```
 
 ### SDK version

@@ -93,9 +93,13 @@ export default function App() {
     }
   }
 
+  const resetConversationUnreadCount = () => {
+    NeteaseIm.resetConversationUnreadCount(toUser.account, SessionTypeEnum.P2P)
+  }
+
   const getMessage = async () => {
     const message = await NeteaseIm.getMessage(
-      'fbf2d6bc-04c0-4e7c-9c0d-1ab9046bde3b',
+      '0296361cfdd64eabaa9f5dec12929d0e',
       toUser.account,
       SessionTypeEnum.P2P
     )
@@ -145,6 +149,7 @@ export default function App() {
       <Button title="历史消息" onPress={getHistoryMessages} />
       <Button title="最近会话" onPress={getConversations} />
       <Button title="删除一条会话" onPress={deleteConversation} />
+      <Button title="重置会话未读数" onPress={() => resetConversationUnreadCount()} />
       <Button title="我的群" onPress={getTeams} />
       <Button title="SDK" onPress={getSdkVersion} />
     </View>

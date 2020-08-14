@@ -14,7 +14,8 @@ interface NeteaseImInterface {
     resend: boolean
   ): Promise<NIM.PromiseResult>
   getConversations(): Promise<NIM.Conversation[]>
-  deleteConversation(account: string, sessionType: SessionTypeEnum): void
+  deleteConversation(sessionId: string, sessionType: SessionTypeEnum): void
+  resetConversationUnreadCount(sessionId: string, sessionType: SessionTypeEnum): void
   getContact(account: string): Promise<NIM.Contact>
   getTeam(teamId: string): Promise<NIM.Team>
   getTeams(): Promise<NIM.Team[]>

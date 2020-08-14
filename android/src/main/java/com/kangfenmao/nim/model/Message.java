@@ -48,10 +48,14 @@ public class Message {
   }
 
   public IMMessage getImMessage() {
+    if (this.message != null) {
+      return this.message;
+    }
+
     List<String> uuids = new ArrayList<>();
     uuids.add(this.id);
     List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(uuids);
 
-    return imMessages.get(0);
+    return imMessages == null ? null : imMessages.get(0);
   }
 }

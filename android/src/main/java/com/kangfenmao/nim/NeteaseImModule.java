@@ -253,6 +253,20 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
   }
 
   /**
+   * 获取总未读数
+   * @param promise
+   */
+  @ReactMethod
+  public void getTotalUnreadCount(Promise promise) {
+    try {
+      int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+      promise.resolve(unreadNum);
+    } catch (Exception e) {
+      promise.resolve(0);
+    }
+  }
+
+  /**
    * 获取联系人信息
    */
   @ReactMethod
@@ -304,8 +318,12 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
     IMMessage anchor = null;
 
     if (messageId.length() == 0) {
-      IMMessage lastMessage = NIMClient.getService(MsgService.class).queryLastMessage(sessionId, SessionTypeEnum.valueOf(sessionType));
-      anchor = lastMessage;
+      try {
+        IMMessage lastMessage = NIMClient.getService(MsgService.class).queryLastMessage(sessionId, SessionTypeEnum.valueOf(sessionType));
+        anchor = lastMessage;
+      } catch (IllegalStateException e) {
+        // anchor = null;
+      }
     } else {
       anchor = new Message(messageId).getImMessage();
     }

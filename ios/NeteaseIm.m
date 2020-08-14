@@ -218,6 +218,16 @@ RCT_EXPORT_METHOD(resetConversationUnreadCount
     [[NIMSDK sharedSDK].conversationManager markAllMessagesReadInSession:session];
 }
 
+/**
+ * 获取总未读数
+ */
+RCT_EXPORT_METHOD(getTotalUnreadCount
+                  :(RCTPromiseResolveBlock)resolve
+                  :(RCTPromiseRejectBlock)reject){
+    long unreadCount = [[NIMSDK sharedSDK].conversationManager allUnreadCount];
+    resolve(@(unreadCount));
+}
+
 
 /**
  * 获取联系人信息

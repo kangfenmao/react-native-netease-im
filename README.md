@@ -179,10 +179,20 @@ await NeteaseIm.getConversations()
 NeteaseIm.deleteConversation(sessionId, SessionType.P2P)
 ```
 
+### resetConversationUnreadCount
+
 重置会话未读数
 
 ```js
 NeteaseIm.resetConversationUnreadCount(sessionId, SessionTypeEnum.P2P)
+```
+
+### getTotalUnreadCount
+
+获取总未读数
+
+```js
+await NeteaseIm.getTotalUnreadCount()
 ```
 
 ### SDK version

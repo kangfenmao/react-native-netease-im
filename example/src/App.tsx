@@ -72,10 +72,6 @@ export default function App() {
     console.log(await NeteaseIm.getConnectStatus())
   }
 
-  const logout = () => {
-    NeteaseIm.logout()
-  }
-
   const sendMessage = async (sessionType: SessionTypeEnum) => {
     const randomString = Math.random().toString(36).substr(2)
     const user = sessionType === SessionTypeEnum.P2P ? toUser : toTeam
@@ -95,6 +91,11 @@ export default function App() {
 
   const resetConversationUnreadCount = () => {
     NeteaseIm.resetConversationUnreadCount(toUser.account, SessionTypeEnum.P2P)
+  }
+
+  const getTotalUnreadCount = async () => {
+    const unreadCount = await NeteaseIm.getTotalUnreadCount()
+    console.log(unreadCount)
   }
 
   const getMessage = async () => {
@@ -135,6 +136,10 @@ export default function App() {
     console.log('version:', NeteaseIm.sdkVersion)
   }
 
+  const logout = () => {
+    NeteaseIm.logout()
+  }
+
   return (
     <View style={styles.container}>
       <Button title="初始化" onPress={init} />
@@ -142,7 +147,6 @@ export default function App() {
       <Button title="自动登录" onPress={autoLogin} />
       <Button title="是否登录" onPress={getLoggined} />
       <Button title="连接状态" onPress={getConnectStatus} />
-      <Button title="退出" onPress={logout} />
       <Button title="发消息(P2P)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
       <Button title="发消息(Team)" onPress={() => sendMessage(SessionTypeEnum.P2P)} />
       <Button title="获取一条消息" onPress={getMessage} />
@@ -150,8 +154,10 @@ export default function App() {
       <Button title="最近会话" onPress={getConversations} />
       <Button title="删除一条会话" onPress={deleteConversation} />
       <Button title="重置会话未读数" onPress={() => resetConversationUnreadCount()} />
+      <Button title="获取会话未读数" onPress={getTotalUnreadCount} />
       <Button title="我的群" onPress={getTeams} />
       <Button title="SDK" onPress={getSdkVersion} />
+      <Button title="退出" onPress={logout} />
     </View>
   )
 }

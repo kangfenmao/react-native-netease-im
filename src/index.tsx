@@ -106,22 +106,22 @@ export enum MessageStatusEnum {
 }
 
 export enum ConnectStatusCodeEnum {
-  CONNECTING, // 正在连接服务器
-  CONNECTED, // 连接服务器成功
-  CONNECT_FAILED, // 连接服务器失败
-  LOGINING, // 登录中
-  LOGINED, // 登录成功
-  UNLOGIN, // 未登录/登录失败
-  SYNCING, // 开始同步数据
-  SYNCED, // 同步数据完成
-  NET_BROKEN, // 网络连接已断开
-  NET_CHANGED, // 网络切换
-  KICKOUT, // 被其他端的登录踢掉
-  KICK_BY_OTHER_CLIENT, // 被同时在线的其他端主动踢掉
-  FORBIDDEN, // 被服务器禁止登录
-  VER_ERROR, // 客户端版本错误
-  PWD_ERROR, // 用户名或密码错误
-  INVALID, // 未定义
+  CONNECTING = 'CONNECTING', // 正在连接服务器
+  CONNECTED = 'CONNECTED', // 连接服务器成功
+  CONNECT_FAILED = 'CONNECT_FAILED', // 连接服务器失败
+  LOGINING = 'LOGINING', // 登录中
+  LOGINED = 'LOGINED', // 登录成功
+  UNLOGIN = 'UNLOGIN', // 未登录/登录失败
+  SYNCING = 'SYNCING', // 开始同步数据
+  SYNCED = 'SYNCED', // 同步数据完成
+  NET_BROKEN = 'NET_BROKEN', // 网络连接已断开
+  NET_CHANGED = 'NET_CHANGED', // 网络切换
+  KICKOUT = 'KICKOUT', // 被其他端的登录踢掉
+  KICK_BY_OTHER_CLIENT = 'KICK_BY_OTHER_CLIENT', // 被同时在线的其他端主动踢掉
+  FORBIDDEN = 'FORBIDDEN', // 被服务器禁止登录
+  VER_ERROR = 'VER_ERROR', // 客户端版本错误
+  PWD_ERROR = 'PWD_ERROR', // 用户名或密码错误
+  INVALID = 'INVALID', // 未定义
 }
 
 export enum TeamNotifyTypeEnum {

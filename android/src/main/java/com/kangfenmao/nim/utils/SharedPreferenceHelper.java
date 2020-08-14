@@ -10,11 +10,6 @@ public class SharedPreferenceHelper {
   private SharedPreferences.Editor sharedPreferencesEditor;
   private boolean isBulkUpdate = false;
 
-  public static class Key {
-    public static final String ACCOUNT = "account";
-    public static final String TOKEN = "token";
-  }
-
   private SharedPreferenceHelper(Context context) {
     sharedPreferences = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE);
   }
@@ -158,5 +153,10 @@ public class SharedPreferenceHelper {
       sharedPreferencesEditor.commit();
       sharedPreferencesEditor = null;
     }
+  }
+
+  public static class Key {
+    public static final String ACCOUNT = "account";
+    public static final String TOKEN = "token";
   }
 }

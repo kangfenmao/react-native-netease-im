@@ -38,6 +38,7 @@ public class Utils {
 
   /**
    * 判断是否登录
+   *
    * @return boolean
    */
   static public boolean isLogined() {
@@ -47,6 +48,7 @@ public class Utils {
 
   /**
    * 获取连接状态
+   *
    * @param status
    * @return
    */
@@ -109,6 +111,7 @@ public class Utils {
 
   /**
    * 从最近联系人中获取会话列表
+   *
    * @param recentContacts
    * @return
    */

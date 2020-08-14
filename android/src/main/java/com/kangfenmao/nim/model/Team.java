@@ -8,7 +8,7 @@ import com.netease.nimlib.sdk.team.TeamService;
 public class Team {
   String id;
   com.netease.nimlib.sdk.team.model.Team team;
-  TeamService teamService =  NIMClient.getService(TeamService.class);;
+  TeamService teamService = NIMClient.getService(TeamService.class);
 
   public Team(String id) {
     this.id = id;

@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 public class NeteaseImModule extends ReactContextBaseJavaModule {
-
   private final ReactApplicationContext reactContext;
   private final SharedPreferenceHelper sharedPreference;
 
@@ -332,11 +331,10 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
     IMMessage anchor = null;
 
     if (messageId.length() == 0) {
-      try {
-        IMMessage lastMessage = NIMClient.getService(MsgService.class).queryLastMessage(sessionId, SessionTypeEnum.valueOf(sessionType));
-        anchor = lastMessage;
-      } catch (IllegalStateException e) {
-        // anchor = null;
+      // 此处拿最后一条消息来算时间（否则还需要获取当前时间）
+      IMMessage lastMessage = NIMClient.getService(MsgService.class).queryLastMessage(sessionId, SessionTypeEnum.valueOf(sessionType));
+      if (lastMessage != null) {
+        anchor = MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.valueOf(sessionType), lastMessage.getTime() + 10);
       }
     } else {
       anchor = new Message(messageId).getImMessage();

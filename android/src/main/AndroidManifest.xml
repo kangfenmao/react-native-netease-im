@@ -19,6 +19,18 @@
   <!-- 8.0+系统需要-->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+  <!-- push permission -->
+  <permission android:name="${applicationId}.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
+  <uses-permission android:name="${applicationId}.permission.MIPUSH_RECEIVE" />
+  <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+  <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+  <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE" />
+  <permission android:name="${applicationId}.push.permission.MESSAGE" android:protectionLevel="signature"/>
+  <uses-permission android:name="${applicationId}.push.permission.MESSAGE" />
+  <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
+  <permission android:name="${applicationId}.permission.C2D_MESSAGE"  android:protectionLevel="signature" />
+  <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
+
   <application>
     <!-- 云信后台服务，请使用独立进程。 -->
     <service
@@ -54,5 +66,60 @@
       android:authorities="com.netease.nim.demo.ipc.provider"
       android:exported="false"
       android:process=":core" />
+    <!-- xiaomi push -->
+    <receiver
+        android:name="com.netease.nimlib.mixpush.mi.MiPushReceiver"
+        android:exported="true">
+      <intent-filter android:priority="0x7fffffff">
+        <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>
+        <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED"/>
+        <action android:name="com.xiaomi.mipush.ERROR"/>
+      </intent-filter>
+    </receiver>
+    <!-- huawei push -->
+    <service
+        android:name="com.netease.nimlib.mixpush.hw.HWPushService"
+        android:exported="false">
+      <intent-filter>
+        <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+      </intent-filter>
+    </service>
+    <!-- vivo push -->
+    <receiver android:name="com.netease.nimlib.mixpush.vivo.VivoPushReceiver">
+      <intent-filter>
+        <!-- 接收 push 消息 -->
+        <action android:name="com.vivo.pushclient.action.RECEIVE"/>
+      </intent-filter>
+    </receiver>
+    <!-- oppo push -->
+    <service
+        android:name="com.netease.nimlib.mixpush.oppo.OppoPushService"
+        android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE">
+      <intent-filter>
+        <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE"/>
+      </intent-filter>
+    </service>
+    <service
+        android:name="com.netease.nimlib.mixpush.oppo.OppoAppPushService"
+        android:permission="com.heytap.mcs.permission.SEND_MCS_MESSAGE">
+      <intent-filter>
+        <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE"/>
+      </intent-filter>
+    </service>
+    <!-- meizu push -->
+    <receiver android:name="com.netease.nimlib.mixpush.mz.MZPushReceiver">
+      <intent-filter android:priority="0x7fffffff">
+        <!-- 接收push消息 -->
+        <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
+        <!-- 接收register消息 -->
+        <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
+        <!-- 接收unregister消息-->
+        <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
+        <!-- 兼容低版本Flyme3推送服务配置 -->
+        <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
+        <action android:name="com.meizu.c2dm.intent.RECEIVE" />
+        <category android:name="${applicationId}" />
+      </intent-filter>
+    </receiver>
   </application>
 </manifest>

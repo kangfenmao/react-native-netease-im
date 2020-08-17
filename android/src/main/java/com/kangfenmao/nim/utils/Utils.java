@@ -149,6 +149,8 @@ public class Utils {
         WritableMap team = new Team(id).getTeam();
         conversation.putString("name", team.getString("name"));
         conversation.putString("avatar", team.getString("avatar"));
+        conversation.putString("notify_type", team.getString("notify_type"));
+        conversation.putString("verify_type", team.getString("verify_type"));
       }
 
       conversations.pushMap(conversation);

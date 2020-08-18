@@ -50,6 +50,7 @@ export namespace NIM {
     type: string
     notify_type: TeamNotifyTypeEnum
     verify_type: TeamVerifyTypeEnum
+    extension: string
   }
   export type Contact = {
     account: string

@@ -80,6 +80,7 @@
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];
+        [conversation setObject:recentSession.serverExt forKey:@"extension"];
 
         if (recentSession.session.sessionType == NIMSessionTypeP2P) {
             NSDictionary *contact = [[Contact alloc] initWithId:id].getContact;

@@ -131,6 +131,7 @@ public class Utils {
       conversation.putString("type", sessionType.toString());
       conversation.putInt("unread_count", recentContact.getUnreadCount());
       conversation.putString("time", String.valueOf(recentContact.getTime()));
+      conversation.putString("extension", String.valueOf(recentContact.getExtension()));
 
       // P2P
       if (sessionType == SessionTypeEnum.P2P) {

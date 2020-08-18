@@ -17,6 +17,11 @@ public class NeteaseIm {
     SDKOptions options = new SDKOptions();
     options.appKey = appKey;
     options.mixPushConfig = mixPushConfig;
+
+    if (mixPushConfig.hwAppId != null) {
+      //
+    }
+
     NIMClient.init(context, null, options);
   }
 }

@@ -8,7 +8,7 @@
 + (NSDictionary *) getConnectStatus: (NIMLoginStep)step{
     NSString *code = @"";
     NSString *message = @"";
-    
+
     switch (step) {
         case NIMLoginStepLinking:
             code = @"CONNECTING";
@@ -53,9 +53,9 @@
         default:
             break;
     }
-    
+
     NSDictionary *dict = @{@"code" : code, @"message" : message};
-    
+
     return dict;
 }
 
@@ -70,6 +70,7 @@
         NSMutableDictionary *conversation = [[NSMutableDictionary alloc] init];
 
         NSString *content = @"";
+        NSString *extension = recentSession.serverExt ? recentSession.serverExt : @"";
 
         if (recentSession.lastMessage && recentSession.lastMessage.text) {
             content = recentSession.lastMessage.text;
@@ -80,7 +81,7 @@
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];
-        [conversation setObject:recentSession.serverExt forKey:@"extension"];
+        [conversation setObject:extension forKey:@"extension"];
 
         if (recentSession.session.sessionType == NIMSessionTypeP2P) {
             NSDictionary *contact = [[Contact alloc] initWithId:id].getContact;

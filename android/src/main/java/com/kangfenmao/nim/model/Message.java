@@ -5,6 +5,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.util.ArrayList;
@@ -57,5 +58,15 @@ public class Message {
     List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(uuids);
 
     return imMessages == null ? null : imMessages.get(0);
+  }
+
+  public String getContentSummary() {
+    IMMessage imMessage = this.getImMessage();
+
+    if (imMessage == null) {
+      return "";
+    }
+
+    return imMessage.getContent();
   }
 }

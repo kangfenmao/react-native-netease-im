@@ -7,10 +7,12 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.kangfenmao.nim.model.Contact;
+import com.kangfenmao.nim.model.Message;
 import com.kangfenmao.nim.model.Team;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -124,14 +126,23 @@ public class Utils {
 
       // 获取最近联系人的ID（好友帐号，群ID等）
       String id = recentContact.getContactId();
+      String content = recentContact.getContent();
+
+      if (recentContact.getMsgType() == MsgTypeEnum.tip) {
+        Message message = new Message(recentContact.getRecentMessageId());
+        String contentSummary = message.getContentSummary();
+        if (contentSummary.length() > 0) {
+          content = contentSummary;
+        }
+      }
 
       WritableMap conversation = Arguments.createMap();
       conversation.putString("id", recentContact.getContactId());
-      conversation.putString("content", recentContact.getContent());
+      conversation.putString("content", content);
       conversation.putString("type", sessionType.toString());
       conversation.putInt("unread_count", recentContact.getUnreadCount());
       conversation.putString("time", String.valueOf(recentContact.getTime()));
-      conversation.putString("extension", String.valueOf(recentContact.getExtension()));
+      conversation.putString("extension", recentContact.getExtension() == null ? "" : String.valueOf(recentContact.getExtension()));
 
       // P2P
       if (sessionType == SessionTypeEnum.P2P) {

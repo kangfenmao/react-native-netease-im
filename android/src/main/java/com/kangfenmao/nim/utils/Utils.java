@@ -126,20 +126,19 @@ public class Utils {
 
       // 获取最近联系人的ID（好友帐号，群ID等）
       String id = recentContact.getContactId();
-      String content = recentContact.getContent();
+      Message message = new Message(recentContact.getRecentMessageId());
+      WritableMap lastMessage = message.getMessage();
 
       if (recentContact.getMsgType() == MsgTypeEnum.tip) {
-        Message message = new Message(recentContact.getRecentMessageId());
         String contentSummary = message.getContentSummary();
         if (contentSummary.length() > 0) {
-          content = contentSummary;
+          lastMessage.putString("content", contentSummary);
         }
       }
 
       WritableMap conversation = Arguments.createMap();
       conversation.putString("id", recentContact.getContactId());
-      conversation.putString("content", content);
-      conversation.putString("from_nick", recentContact.getFromNick());
+      conversation.putMap("last_message", message.getMessage());
       conversation.putString("type", sessionType.toString());
       conversation.putInt("unread_count", recentContact.getUnreadCount());
       conversation.putString("time", String.valueOf(recentContact.getTime()));

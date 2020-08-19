@@ -43,14 +43,12 @@ export namespace NIM {
   export type Conversation = {
     id: string
     name: string
-    from_nick: string
     avatar: string
-    content: string
-    unread_count: number
-    time: string
     type: string
+    last_message?: Message
     notify_type: TeamNotifyTypeEnum
     verify_type: TeamVerifyTypeEnum
+    unread_count: number
     extension: string
   }
   export type Contact = {

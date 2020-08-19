@@ -68,20 +68,13 @@
         NSString *id = recentSession.session.sessionId;
 
         NSMutableDictionary *conversation = [[NSMutableDictionary alloc] init];
-
-        NSString *content = @"";
+        NSDictionary *message = [[Message alloc] initWithMessage: recentSession.lastMessage].getMessage;
         NSString *extension = recentSession.serverExt == nil ? @"" : recentSession.serverExt;
 
-        if (recentSession.lastMessage && recentSession.lastMessage.text) {
-            content = recentSession.lastMessage.text;
-        }
-
         [conversation setObject:id forKey:@"id"];
-        [conversation setObject:content.length == 0 ? [NSNull null] : content forKey:@"content"];
-        [conversation setObject:recentSession.lastMessage.from forKey:@"from_nick"];
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
-        [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];
+        [conversation setObject:message forKey:@"last_message"];
         [conversation setObject:extension forKey:@"extension"];
 
         if (recentSession.session.sessionType == NIMSessionTypeP2P) {
@@ -94,6 +87,7 @@
 
         if (recentSession.session.sessionType == NIMSessionTypeTeam) {
             NSDictionary *team = [[Team alloc] initWithId:id].getTeam;
+
             [conversation setValue:team[@"avatar"] forKey:@"avatar"];
             [conversation setObject:team[@"name"] forKey:@"name"];
             [conversation setObject:team[@"notify_type"] forKey:@"notify_type"];

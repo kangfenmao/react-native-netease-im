@@ -46,6 +46,7 @@ export namespace NIM {
     avatar: string
     type: string
     last_message?: Message
+    team_creator?: string
     notify_type: TeamNotifyTypeEnum
     verify_type: TeamVerifyTypeEnum
     unread_count: number

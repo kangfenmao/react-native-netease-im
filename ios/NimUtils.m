@@ -90,6 +90,7 @@
 
             [conversation setValue:team[@"avatar"] forKey:@"avatar"];
             [conversation setObject:team[@"name"] forKey:@"name"];
+            [conversation setObject:team[@"creator"] forKey:@"team_creator"];
             [conversation setObject:team[@"notify_type"] forKey:@"notify_type"];
             [conversation setObject:team[@"verify_type"] forKey:@"verify_type"];
         }

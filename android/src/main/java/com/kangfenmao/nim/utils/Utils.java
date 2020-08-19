@@ -139,6 +139,7 @@ public class Utils {
       WritableMap conversation = Arguments.createMap();
       conversation.putString("id", recentContact.getContactId());
       conversation.putString("content", content);
+      conversation.putString("from_nick", recentContact.getFromNick());
       conversation.putString("type", sessionType.toString());
       conversation.putInt("unread_count", recentContact.getUnreadCount());
       conversation.putString("time", String.valueOf(recentContact.getTime()));

@@ -70,7 +70,7 @@
         NSMutableDictionary *conversation = [[NSMutableDictionary alloc] init];
 
         NSString *content = @"";
-        NSString *extension = recentSession.serverExt ? recentSession.serverExt : @"";
+        NSString *extension = recentSession.serverExt == nil ? @"" : recentSession.serverExt;
 
         if (recentSession.lastMessage && recentSession.lastMessage.text) {
             content = recentSession.lastMessage.text;
@@ -78,6 +78,7 @@
 
         [conversation setObject:id forKey:@"id"];
         [conversation setObject:content.length == 0 ? [NSNull null] : content forKey:@"content"];
+        [conversation setObject:recentSession.lastMessage.from forKey:@"from_nick"];
         [conversation setObject:nimConstant->sessionType[recentSession.session.sessionType] forKey:@"type"];
         [conversation setObject:@(recentSession.unreadCount) forKey:@"unread_count"];
         [conversation setObject:@(recentSession.lastMessage.timestamp * 1000) forKey:@"time"];

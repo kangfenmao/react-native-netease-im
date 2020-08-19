@@ -43,6 +43,7 @@ export namespace NIM {
   export type Conversation = {
     id: string
     name: string
+    from_nick: string
     avatar: string
     content: string
     unread_count: number

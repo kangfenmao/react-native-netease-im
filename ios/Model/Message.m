@@ -55,7 +55,7 @@
         // 回复时间
         @"time": @(message.timestamp * 1000),
         // 消息方向
-        @"direct": message.isReceivedMsg ? @"In" : @"Out",
+        @"direct": message.isOutgoingMsg ? @"Out" : @"In",
         // 会话服务扩展字段
         @"extension": message.localExt == nil ? @"" : message.localExt,
         // 消息类型

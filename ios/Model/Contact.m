@@ -16,15 +16,17 @@
     __block NIMUserInfo *userInfo = user.userInfo;
     NSNull *null = [NSNull null];
 
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    if (!userInfo) {
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
-    [[NIMSDK sharedSDK].userManager fetchUserInfos:@[self->contactId] completion:^(NSArray *users, NSError *error) {
-        NIMUser *nimUser = users[0];
-        userInfo = nimUser.userInfo;
-        dispatch_semaphore_signal(semaphore);
-    }];
+        [[NIMSDK sharedSDK].userManager fetchUserInfos:@[self->contactId] completion:^(NSArray *users, NSError *error) {
+            NIMUser *nimUser = users[0];
+            userInfo = nimUser.userInfo;
+            dispatch_semaphore_signal(semaphore);
+        }];
 
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    }
 
     return @{
         @"account": user.userId,

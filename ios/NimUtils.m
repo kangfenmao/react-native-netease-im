@@ -88,15 +88,22 @@
         if (recentSession.session.sessionType == NIMSessionTypeTeam) {
             NSDictionary *team = [[Team alloc] initWithId:id].getTeam;
 
+            if (!team[@"name"]) {
+                conversations[i] = [NSNull null];
+                continue;
+            }
+
             [conversation setValue:team[@"avatar"] forKey:@"avatar"];
-            [conversation setObject:team[@"name"] forKey:@"name"];
-            [conversation setObject:team[@"creator"] forKey:@"team_creator"];
-            [conversation setObject:team[@"notify_type"] forKey:@"notify_type"];
-            [conversation setObject:team[@"verify_type"] forKey:@"verify_type"];
+            [conversation setValue:team[@"name"] forKey:@"name"];
+            [conversation setValue:team[@"creator"] forKey:@"team_creator"];
+            [conversation setValue:team[@"notify_type"] forKey:@"notify_type"];
+            [conversation setValue:team[@"verify_type"] forKey:@"verify_type"];
         }
 
         conversations[i] = conversation;
     }
+
+    [conversations removeObjectIdenticalTo:[NSNull null]];
 
     return conversations;
 }

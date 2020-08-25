@@ -159,6 +159,11 @@ public class Utils {
       // Team
       if (sessionType == SessionTypeEnum.Team) {
         WritableMap team = new Team(id).getTeam();
+
+        if (team == null || team.getString("name").length() == 0) {
+          continue;
+        }
+
         conversation.putString("name", team.getString("name"));
         conversation.putString("avatar", team.getString("avatar"));
         conversation.putString("team_creator", team.getString("creator"));

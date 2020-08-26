@@ -72,7 +72,7 @@ export namespace NIM {
     content: string
     time: string
     direct: string
-    extension: string
+    extension: any
     type: string
     status: string
   }

@@ -57,7 +57,7 @@
         // 消息方向
         @"direct": message.isOutgoingMsg ? @"Out" : @"In",
         // 会话服务扩展字段
-        @"extension": message.localExt == nil ? @"" : message.localExt,
+        @"extension": message.remoteExt == nil ? @"" : message.remoteExt,
         // 消息类型
         @"type": nimConstant->messageType[@(message.messageType)],
         // 消息投递状态

@@ -1,10 +1,14 @@
 package com.kangfenmao.nim.model;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
+import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -40,6 +44,16 @@ public class Message {
     message.putString("time", String.valueOf(imMessage.getTime()));
     message.putString("type", imMessage.getMsgType().toString());
     message.putString("direct", imMessage.getDirect().toString());
+
+    if (imMessage.getMsgType() == MsgTypeEnum.image) {
+      ImageAttachment image = (ImageAttachment) imMessage.getAttachment();
+      WritableMap imageMap = Arguments.createMap();
+      imageMap.putString("url", image.getUrl());
+      imageMap.putString("thumb_url", image.getThumbUrl());
+      imageMap.putInt("width", image.getWidth());
+      imageMap.putInt("height", image.getHeight());
+      message.putMap("image", imageMap);
+    }
 
     return message;
   }

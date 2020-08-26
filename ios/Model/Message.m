@@ -37,34 +37,48 @@
 
     NSDictionary *contact = [[Contact alloc] initWithId:message.from].getContact;
 
-    NSDictionary *dict = @{
-        // 消息ID
-        @"id": message.messageId,
-        // 会话ID
-        @"session_id": message.session.sessionId,
-        // 会话类型
-        @"session_type": nimConstant->sessionType[message.session.sessionType],
-        // 发送方的帐号
-        @"account": message.from,
-        // 发送者的昵称
-        @"nickname": contact[@"name"],
-        // 发送者头像
-        @"avatar": contact[@"avatar"],
-        // 消息文本
-        @"content": message.text ? message.text : @"",
-        // 回复时间
-        @"time": @(message.timestamp * 1000),
-        // 消息方向
-        @"direct": message.isOutgoingMsg ? @"Out" : @"In",
-        // 会话服务扩展字段
-        @"extension": message.remoteExt == nil ? @"" : message.remoteExt,
-        // 消息类型
-        @"type": nimConstant->messageType[@(message.messageType)],
-        // 消息投递状态
-        @"status": nimConstant->deliveryState[message.deliveryState],
-    };
+    if (message.messageType == NIMMessageTypeText) {
 
-    return dict;
+    }
+
+    NSMutableDictionary *messageDict = [NSMutableDictionary dictionary];
+    // 消息ID
+    [messageDict setObject:message.messageId forKey:@"id"];
+    // 会话ID
+    [messageDict setObject:message.session.sessionId forKey:@"session_id"];
+    // 会话类型
+    [messageDict setObject:nimConstant->sessionType[message.session.sessionType] forKey:@"session_type"];
+    // 发送方的帐号
+    [messageDict setObject:message.from forKey:@"account"];
+    // 发送者的昵称
+    [messageDict setObject:contact[@"name"] forKey:@"nickname"];
+    // 发送者头像
+    [messageDict setObject:contact[@"avatar"] forKey:@"avatar"];
+    // 消息文本
+    [messageDict setObject:message.text ? message.text : @"" forKey:@"content"];
+    // 回复时间
+    [messageDict setObject:@(message.timestamp * 1000) forKey:@"time"];
+    // 消息方向
+    [messageDict setObject:message.isOutgoingMsg ? @"Out" : @"In" forKey:@"direct"];
+    // 会话服务扩展字段
+    [messageDict setObject:message.remoteExt == nil ? @"" : message.remoteExt forKey:@"extension"];
+    // 消息类型
+    [messageDict setObject:nimConstant->messageType[@(message.messageType)] forKey:@"type"];
+    // 消息投递状态
+    [messageDict setObject:nimConstant->deliveryState[message.deliveryState] forKey:@"status"];
+
+    if (message.messageType == NIMMessageTypeImage) {
+        NIMImageObject *image = message.messageObject;
+        NSMutableDictionary *imageDict = [NSMutableDictionary dictionary];
+        [imageDict setObject:image.thumbUrl ? image.thumbUrl : [NSNull null] forKey:@"thumb_url"];
+        [imageDict setObject:image.url ? image.url : [NSNull null] forKey:@"url"];
+        [imageDict setObject:image.displayName ? image.displayName : @"" forKey:@"display_name"];
+        [imageDict setObject:@(image.size.width) forKey:@"width"];
+        [imageDict setObject:@(image.size.height) forKey:@"height"];
+        [messageDict setObject:imageDict forKey:@"image"];
+    }
+
+    return messageDict;
 }
 
 -(NIMMessage *)getImMessage

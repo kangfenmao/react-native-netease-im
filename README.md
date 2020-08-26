@@ -139,6 +139,33 @@ sendMessage(
 ): Promise<NIM.PromiseResult>
 ```
 
+### sendImage
+
+发送图片
+
+```js
+try {
+  const result = await NeteaseIm.sendMessage(
+    'kangfenmao',
+    '图片路径',
+    NimSessionTypeEnum.P2P,
+    false
+  )
+  console.log(result)
+} catch (error) {
+  console.log({ code: error.code, message: error.message })
+}
+```
+
+```ts
+sendImage(
+  account: string,
+  path: string,
+  type: NimSessionTypeEnum,
+  resend: boolean
+): Promise<NIM.PromiseResult>
+```
+
 ### getMessage
 
 获取一条消息

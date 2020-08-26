@@ -186,6 +186,52 @@ RCT_EXPORT_METHOD(sendMessage
 }
 
 /**
+ * 发送图片
+ */
+RCT_EXPORT_METHOD(sendImage
+                  :(nonnull NSString *)account
+                  :(nonnull NSString *)path
+                  :(nonnull NSString *)type
+                  :(BOOL)resend
+                  :(RCTPromiseResolveBlock)resolve
+                  :(RCTPromiseRejectBlock)reject) {
+    NIMSessionType sessionType = NIMSessionTypeP2P;
+
+    NSArray *items = @[@"P2P", @"Team"];
+    NSInteger index = [items indexOfObject:type];
+
+    switch (index) {
+        case NIMSessionTypeP2P:
+            sessionType = NIMSessionTypeP2P;
+            break;
+        case NIMSessionTypeTeam:
+            sessionType = NIMSessionTypeTeam;
+            break;
+        default:
+            break;
+    }
+
+    // 构造出具体会话
+    NIMSession *session = [NIMSession session:account type:sessionType];
+    // 获得图片附件对象
+    NIMImageObject *object = [[NIMImageObject alloc] initWithFilepath:path];
+    // 构造出具体消息并注入附件
+    NIMMessage *message = [[NIMMessage alloc] init];
+    message.messageObject = object;
+    // 错误反馈对象
+    NSError *error = nil;
+    // 发送消息
+    [[NIMSDK sharedSDK].chatManager sendMessage:message toSession:session error:&error];
+
+    if (error) {
+        reject(@"-1", @"消息发送失败", error);
+        return;
+    }
+
+    resolve(@{@"code": @200, @"message": @"发送成功"});
+}
+
+/**
  * 最近会话
  */
 RCT_EXPORT_METHOD(getConversations

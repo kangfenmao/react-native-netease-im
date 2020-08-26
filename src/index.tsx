@@ -13,6 +13,12 @@ interface NeteaseImInterface {
     type: SessionTypeEnum,
     resend: boolean
   ): Promise<NIM.PromiseResult>
+  sendImage(
+    account: string,
+    path: string,
+    type: SessionTypeEnum,
+    resend: boolean
+  ): Promise<NIM.PromiseResult>
   getConversations(): Promise<NIM.Conversation[]>
   deleteConversation(sessionId: string, sessionType: SessionTypeEnum): void
   resetConversationUnreadCount(sessionId: string, sessionType: SessionTypeEnum): void
@@ -75,6 +81,7 @@ export namespace NIM {
     extension: any
     type: string
     status: string
+    image: Image
   }
   export type Team = {
     id: string
@@ -89,6 +96,12 @@ export namespace NIM {
     notify_type: TeamNotifyTypeEnum
     verify_type: TeamVerifyTypeEnum
     create_time: string
+  }
+  export type Image = {
+    width: number
+    height: number
+    url: string
+    thumb_url: string
   }
 }
 

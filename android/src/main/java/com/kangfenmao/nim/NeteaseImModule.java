@@ -26,6 +26,7 @@ import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.TeamService;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,6 +200,49 @@ public class NeteaseImModule extends ReactContextBaseJavaModule {
 
     // 发送给对方
     NIMClient.getService(MsgService.class).sendMessage(textMessage, resend).setCallback(new RequestCallback<Void>() {
+      @Override
+      public void onSuccess(Void param) {
+        WritableMap result = Arguments.createMap();
+        result.putInt("code", 200);
+        result.putString("message", "发送成功");
+        promise.resolve(result);
+      }
+
+      @Override
+      public void onFailed(int code) {
+        promise.reject(String.valueOf(code), "发送失败");
+      }
+
+      @Override
+      public void onException(Throwable exception) {
+        promise.reject("-1", exception.getMessage(), exception);
+      }
+    });
+  }
+
+  /**
+   * 发送图片
+   */
+  @ReactMethod
+  public void sendImage(String account, String path, String type, Boolean resend, Promise promise) {
+    SessionTypeEnum sessionType = SessionTypeEnum.P2P;
+
+    switch (type) {
+      case "P2P":
+        sessionType = SessionTypeEnum.P2P;
+        break;
+      case "Team":
+        sessionType = SessionTypeEnum.Team;
+        break;
+    }
+
+    File imageFile = new File(path);
+
+    // 创建一个文本消息
+    IMMessage imageMessage = MessageBuilder.createImageMessage(account, sessionType, imageFile, imageFile.getName());
+
+    // 发送给对方
+    NIMClient.getService(MsgService.class).sendMessage(imageMessage, resend).setCallback(new RequestCallback<Void>() {
       @Override
       public void onSuccess(Void param) {
         WritableMap result = Arguments.createMap();

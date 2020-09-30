@@ -71,7 +71,7 @@ public class Message {
     uuids.add(this.id);
     List<IMMessage> imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(uuids);
 
-    return imMessages == null ? null : imMessages.get(0);
+    return (imMessages == null || imMessages.isEmpty()) ? null : imMessages.get(0);
   }
 
   public String getContentSummary() {
